@@ -8,7 +8,6 @@
   <body>
     <textarea id="source">
 
-class: center, middle
 layout: true
 ---
 
@@ -24,6 +23,58 @@ layout: true
 ???
 
 Before we get into the details, I want to sell you on Rust and why it's so important for the future of software.
+
+---
+
+# Mutability
+
+--
+
+## *Mut*able == Can mutate
+
+--
+
+#### /ˈmjuːtəb(ə)l/
+changeable, variable, varying, fluctuating, shifting, inconsistent, **unpredictable**, inconstant, **uncertain**, fluid, erratic, irregular, uneven, unsettled, unstable, unsteady
+
+---
+
+# How do we deal with mutability?
+
+--
+
+### Object Oriented Programming
+   > Encapsulate mutable state and hide it behind methods. Use `private` so it can't be accessed.
+
+--
+
+### Functional Programming
+   > Mutation is bad! Don't mutate anything! Make a copy if you need to change something.
+
+--
+
+### Rust
+   > Mutation is inevitable, so we'll add some simple compiler rules to make it safe.
+
+---
+
+# Three simple rules of data in Rust
+
+--
+
+## - There can only be *one* owner (at a time)
+
+--
+
+## and either:
+
+--
+
+### - *Many* read-only borrows; OR
+
+--
+
+### - *One* mutable borrow
 
 ---
 
@@ -61,6 +112,19 @@ I think many people in the room will have seen at least one case where you've ha
 because they got out of control, the garbage collector had to do too much work, and it was slowing the application down.
 
 Actually, we should be **thinking about memory more**. We should have more control over it and be more aware of how our programs consume it.
+
+---
+
+```typescript
+const user = { name: 'Ted', age: 27 };
+const user2 = { ...user, name: 'Lucy' };
+```
+
+```rust
+let user = User { name: "Ted"; age: 27 };
+let user2 = user.clone();
+user2
+```
 
 ---
 
