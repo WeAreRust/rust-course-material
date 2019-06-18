@@ -76,7 +76,15 @@ layout: true
 
 ## Memory safety is hard
 
---
+---
+
+![Rust Logo](./memory-safety.svg)
+
+---
+
+# Why Rust?
+
+## Memory safety is hard
 
 ### C/C++: _Trust me, I'm an engineer_
 
@@ -345,46 +353,24 @@ error[E0004]: non-exhaustive patterns: `_` not covered
 ### `Option<T>`
 
 ```rust
-struct Rgb {
-  r: u8,
-  g: u8,
-  b: u8,
-  a: Option<u8>
-}
-```
+let `definition` = dictionary.get("colorful");
+//  ^^^^^^^^^^ This is an Option<String>
 
---
-
-```rust
-let rgb = Rgb { r: 255, g: 0, b: 0, a: None };
-```
-
---
-
-```rust
-let rgb_translucent = Rgb { r: 255, g: 0, b: 0, a: Some(100) };
-```
-
----
-
-# Option type
-
-```rust
-struct Rgb {
-  r: u8,
-  g: u8,
-  b: u8,
-  a: Option<u8>
-}
-```
-
-```rust
-match rgb {
-  Rgb { a: Some(alpha), .. } => println!("It has alpha: {}", alpha),
-  Rgb { a: None, .. }        => println!("It has no alpha"),
+match definition {
+  Some(def) => println!("The definition of this word is: {}", def),
+  None      => println!("Could not find this word"),
 };
 ```
 
+--
+
+```rust
+let definition = dictionary
+  .get("colorful")
+  .unwrap_or("No definition found");
+
+println!("The definition of this word is: {}", definition);
+```
 ---
 
 # Result type
