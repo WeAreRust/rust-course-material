@@ -82,7 +82,7 @@ Once it's done generating the docs for your project, those docs should open in y
 
 Using the `rand` documentation, try to generate a random number and print it to the screen.
 
-## 7. Generate and output some JSON:
+## 7a. (Extra challenge) Generate and output some JSON:
 
 Install the serde crate (the go to crate for serialization and deserialization in Rust), and the JSON implementation by adding these to your dependencies:
 
@@ -102,7 +102,7 @@ struct Bookmark {
 }
 
 fn main() {
-    let media_item = Media {
+    let bookmark = Bookmark {
         id: 1,
         title: "Cat pics".into(),
         url: "https://www.canva.com/photos/search/cats/".into(),
@@ -112,7 +112,7 @@ fn main() {
 }
 ```
 
-## 8. Parse some JSON
+## 7b. Parse some JSON
 
 Parse some JSON back into the data structure and print the title to the console:
 
