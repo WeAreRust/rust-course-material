@@ -39,7 +39,7 @@ If you do want to build but not run, you can use `cargo build`. You can also tel
 
 Unit testing is built into Rust. Create a test inside `main.rs`:
 
-```rs
+```rust
 #[test]
 fn test_passes() {
   assert_eq!(1 + 1, 2);
@@ -93,7 +93,7 @@ serde_json = "1.0"
 
 Using `serde`, generate some JSON from a data structure:
 
-```rs
+```rust
 #[derive(Serialize, Deserialize)]
 struct Bookmark {
     id: u32,
@@ -116,7 +116,7 @@ fn main() {
 
 Parse some JSON back into the data structure and print the title to the console:
 
-```rs
+```rust
 let json = "{ id: 2, \"title\": \"Dog pics\", \"url\": \"...\" }";
 
 // TODO: Print just the title
