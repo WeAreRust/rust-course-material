@@ -112,6 +112,8 @@ fn main() {
 }
 ```
 
+The `#[derive(Serialize, Deserialize)]` is another compile time macro (it's actually two - one for Serialize and one for Deserialize). These macros examine the struct at compile time and generate a bunch of code to do the serializing/deserializing.
+
 ## 7b. Parse some JSON
 
 Parse some JSON back into the data structure and print the title to the console:
