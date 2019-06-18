@@ -18,12 +18,385 @@ layout: true
 ## Day 1
 
 ---
+.imgFull[![Stack Overflow Survey](./most-loved-lang.png)]
+---
+
 # Why Rust?
 
-???
+---
 
-Before we get into the details, I want to sell you on Rust and why it's so important for the future of software.
+# Why Rust?
 
+## The community 💛
+
+--
+
+### The community is incredibly welcoming and helpful
+
+--
+### Code of conduct & moderation team
+
+--
+### Meetups everywhere
+
+--
+
+ > Something I think Rust gets right, the community, the book, even the compiler, is that it does believe in you, but it also doesn't expect you to just "get it" overnight.
+ > **There is a tone to the literature, to the compiler messages, to the IRC channel, which is this: "we understand." **
+ > ~ JArcane [(link)](https://www.reddit.com/r/rust/comments/3cl12r/is_rust_too_complicated/csxp7xa/)
+
+---
+
+# Why Rust?
+
+## Maintenance
+
+### Rust is built with long term maintainability in mind
+
+--
+
+### Powerful type system
+
+
+--
+
+### Built-in unit & integration testing. No test framework churn.
+
+--
+
+### Built-in documentation generation (like Javadoc, JSDoc etc)
+
+--
+
+### Doctests 🥰
+
+---
+
+# Why Rust?
+
+## Memory safety is hard
+
+--
+
+### C/C++: _Trust me, I'm an engineer_
+
+--
+
+### Rust: _Help me, I am a mere human_
+
+--
+
+### The ownership system
+
+--
+
+### Safe mutability
+
+--
+
+### Explicit lifetimes
+
+---
+
+# Why Rust?
+
+## WebAssembly
+
+--
+
+### What is it?
+
+--
+
+### It's kind of a big deal
+
+--
+
+### Rust is currently the best positioned language to take advantage
+
+--
+
+### Output can be lightweight, fast, and efficient
+
+--
+
+### But Rust still provides enough abstractions to be useful
+
+---
+
+# Why Rust?
+
+## Rust breaks down some of the barriers between systems programming and "high-level" programming
+
+---
+
+# When to use Rust?
+
+--
+
+### For RAM/CPU bound applications
+
+--
+
+### When resource management is important (RAM, sockets, files, processes, even Docker containers)
+
+--
+
+### For cross-platform apps with no dependencies
+
+--
+
+### Security conscious tools
+
+--
+
+### CLI tools
+
+--
+
+### As a tool for learning low level computing
+
+---
+
+# Why not Rust?
+
+--
+
+### Prototyping (the compiler can be slow)
+
+--
+
+### You need to hire a lot of people (for now)
+
+--
+
+### UI based apps (for now)
+
+--
+
+### Async applications (for now. `async/await` are coming soon. OS thread support is already excellent)
+
+--
+
+### You want to implement a linked list from scratch
+
+--
+
+### Embedded applications (for now, chat to Ben)
+
+---
+
+# Who uses it?
+
+--
+
+### *Figma*: Multiplayer server [(link)](https://www.figma.com/blog/rust-in-production-at-figma/)
+
+--
+
+### *Mozilla*: Rewriting core parts of Firefox in Rust. See the Servo project.
+
+--
+
+### *npm*: Rewrote their CPU bound auth service in Rust (from Node)
+
+--
+
+### *Dropbox*: Parts of their "Magic Pocket" storage system are built in Rust
+
+--
+
+### *Yelp*: Using it for their A/B testing framework
+
+---
+
+# What to expect
+
+--
+
+### There *is* a steep learning curve
+
+--
+
+### Don't try to write OOP code in Rust
+
+--
+
+### Keep an open mind. It can feel like learning to code again.
+
+--
+
+### Remember, the type system is there to help you
+
+---
+
+# Pattern matching
+
+--
+
+## Like a `switch`, but far more powerful
+
+--
+
+```rust
+match color {
+  "red"   => set_color(Rgb { r: 255, g: 0, b: 0 }),
+  "green" => set_color(Rgb { r: 0, g: 255, b: 0 }),
+  "blue"  => set_color(Rgb { r: 0, g: 0, b: 255 }),
+  _ => panic!("Unknown color!")
+};
+```
+
+--
+
+```rust
+let rgb = match color {
+  "red"   => Rgb { r: 255, g: 0, b: 0 },
+  "green" => Rgb { r: 0, g: 255, b: 0 },
+  "blue"  => Rgb { r: 0, g: 0, b: 255 },
+  _ => panic!("Unknown color!")
+};
+set_color(rgb)
+```
+
+---
+
+# Pattern matching
+
+```rust
+let color = match rgb {
+  Rgb { r: 255, g: 0, b: 0 }  => "red",
+  Rgb { r: 0, g: 255, b: 0 }  => "green",
+  Rgb { r: 0, g: 0, b: 255 }  => "blue",
+  _ => panic!("Unknown color!")
+};
+```
+
+---
+
+# Pattern matching
+
+```rust
+let color = match rgb {
+  Rgb { r: 255, .. }  => "red",
+  Rgb { g: 255, .. }  => "green",
+  Rgb { b: 255, .. }  => "blue",
+  _ => panic!("Unknown color!")
+};
+```
+
+---
+
+# Pattern matching
+
+```rust
+let color = match rgb {
+  Rgb { r: 255, g, b } if g < 100 && b < 100  => "red",
+  Rgb { g: 255, r, b } if r < 100 && b < 100  => "green",
+  Rgb { b: 255, g, r } if g < 100 && r < 100  => "blue",
+  _ => panic!("Unknown color!")
+};
+```
+
+---
+
+# Option type
+
+## Something that may or may not exist
+
+#### (like a type safe `Nullable` or `T | undefined`)
+
+--
+
+### `Option<T>`
+
+```rust
+struct Rgb {
+  r: u8,
+  g: u8,
+  b: u8,
+  a: Option<u8>
+}
+```
+
+--
+
+```rust
+let rgb = Rgb { r: 255, g: 0, b: 0, a: None };
+```
+
+--
+
+```rust
+let rgb_translucent = Rgb { r: 255, g: 0, b: 0, a: Some(100) };
+```
+
+---
+
+# Option type
+
+```rust
+struct Rgb {
+  r: u8,
+  g: u8,
+  b: u8,
+  a: Option<u8>
+}
+```
+
+```rust
+match rgb {
+  Rgb { a: Some(alpha), .. } => println!("It has alpha: {}", alpha),
+  Rgb { a: None, .. }        => println!("It has no alpha"),
+};
+```
+
+---
+
+# Result type
+
+### Rust applications generally don't throw exceptions (known as panics) for errors that are typically expected
+
+--
+
+### `Result<T, Err>`
+
+```rust
+let `file_result` = File::open("foo.txt");
+//  ^^^^^^^^^^^ This is a Result<File, Err>
+
+match file_result {
+  Ok(file)   => /* Do something with the file  */,
+  Err(error) => /* Do something with the error */,
+};
+```
+
+---
+
+# Compile-time Macros
+
+## Run Rust code at compile time
+
+--
+
+### Write Rust that writes Rust
+
+--
+
+### Very powerful, but don't overuse
+
+--
+
+### `serde`
+
+```rust
+#[derive(Serialize, Deserialize)]
+struct Person {
+    name: String,
+    age: u8,
+    city: String,
+}
+```
 ---
 
 # Mutability
@@ -43,6 +416,11 @@ changeable, variable, varying, fluctuating, shifting, inconsistent, **unpredicta
 
 --
 
+### C
+   > Mutation is dangerous, use it wisely.
+
+--
+
 ### Object Oriented Programming
    > Encapsulate mutable state and hide it behind methods. Use `private` so it can't be accessed.
 
@@ -54,11 +432,17 @@ changeable, variable, varying, fluctuating, shifting, inconsistent, **unpredicta
 --
 
 ### Rust
-   > Mutation is inevitable, so we'll add some simple compiler rules to make it safe.
+   > In real world applications, mutation is inevitable, so we'll add some compiler rules to make it safe.
 
 ---
 
-# Three simple rules of data in Rust
+# If C is like playing with knives and C++ is like juggling chainsaws then Rust is like parkour wearing protective gear while suspended from strings. It may look ridiculous at times, but you can do all sorts of awesome moves that would be damn scary or outright impossible without it.
+
+`u/llogiq` on `r/rust`
+
+---
+
+# Three rules of data in Rust
 
 --
 
@@ -115,19 +499,6 @@ Actually, we should be **thinking about memory more**. We should have more contr
 
 ---
 
-```typescript
-const user = { name: 'Ted', age: 27 };
-const user2 = { ...user, name: 'Lucy' };
-```
-
-```rust
-let user = User { name: "Ted"; age: 27 };
-let user2 = user.clone();
-user2
-```
-
----
-
 ## ...but managing memory is scary
 
 ???
@@ -140,70 +511,13 @@ exactly what caused the major Chrome security flaw in March.
 Mutating the same piece of memory in two threads at the same time is risky. That's a race condition. This is a risk even in high level languages
 that supposedly manage memory for you.
 
----
-
-# Rust makes it safe to manage memory
-
-???
-
-The Rust compiler is like having the bumpers up. It will guide you and if you try to do something dangerous with memory, it won't let you compile.
-
-You can think of the strict compiler like a teacher, it will help you better understand how memory is managed in your app, and make sure you don't mess up.
-
----
-
-# It will be difficult in the beginning
-
-???
-
-In the beginning, you will struggle. You'll be frustrated that the compiler won't let you build anything.
-
-But just have faith that it's trying to be helpful, and in time you'll start thinking the Rust way. It's a
-different way of thinking about programs, but if you stick with it, it'll change the way you write code in
-other languages too.
-
----
-
-# If C is like playing with knives and C++ is like juggling chainsaws then Rust is like parkour wearing protective gear while suspended from strings. It may look ridiculous at times, but you can do all sorts of awesome moves that would be damn scary or outright impossible without it.
-
-`u/llogiq` on `r/rust`
-
----
-
-# An incredibly powerful type system
-
-???
-
-Taking inspiration from languages like **OCaml and Haskell**
-
-Rust supports some very powerful patterns for programming with types, and validating your business logic at compile time.
-
-And yes, it supports generics.
-
----
-
-.imgFull[![Stack Overflow Survey](./most-loved-lang.png)]
-
-???
-
-Also, developers love it.
-
-Rust has been the top of the "Most Loved" languages in the Stack Overflow developer survey for **4 years in a row**.
-
----
-
-???
-
-Rust provides:
- - The control of a low level language + the safety of a high level language
- - The safety of immutable data with mutability
 
 
 ---
 
-Rust Playground
+class: center, middle
 
-<iframe src="https://play.rust-lang.org/" width="800px" height="600px"></iframe>
+# Check the `#rust-course` channel on Slack for a link to the workshop material
 
 ---
 
