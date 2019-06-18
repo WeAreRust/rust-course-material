@@ -98,6 +98,12 @@ layout: true
 
 ---
 
+# If C is like playing with knives and C++ is like juggling chainsaws then Rust is like parkour wearing protective gear while suspended from strings. It may look ridiculous at times, but you can do all sorts of awesome moves that would be damn scary or outright impossible without it.
+
+`u/llogiq` on `r/rust`
+
+---
+
 # Why Rust?
 
 ## WebAssembly
@@ -436,12 +442,6 @@ changeable, variable, varying, fluctuating, shifting, inconsistent, **unpredicta
 
 ---
 
-# If C is like playing with knives and C++ is like juggling chainsaws then Rust is like parkour wearing protective gear while suspended from strings. It may look ridiculous at times, but you can do all sorts of awesome moves that would be damn scary or outright impossible without it.
-
-`u/llogiq` on `r/rust`
-
----
-
 # Three rules of data in Rust
 
 --
@@ -464,60 +464,37 @@ changeable, variable, varying, fluctuating, shifting, inconsistent, **unpredicta
 
 # The ownership system
 
-???
-
-A unique feature of Rust is the ownership system.
-
 ---
 
-# Low level languages force you to think about memory
+# Lower level languages force you to think about memory
 
-???
+--
 
-Low level languages like C and C++ force you to think about memory allocation.
-Generally you need to be aware of when memory is allocated, when values are copied, when they're shared, and
-when they're are cleaned up.
+## You can't escape memory, even in higher level languages
 
-On the other hand, high level languages abstract that away from you. Sometimes they copy something by value,
-sometimes by reference, and sometimes you get control over that. But the allocation and deallocation happens
-transparently. The garbage collector spends time going around cleaning up old unused values.
+--
 
----
+## but managing memory can be dangerous and feels error-prone
 
-# You can't escape memory
+--
 
-???
-
-Memory managed languages (Java, JavaScript etc) have given us the impression that we shouldn't have to think about memory.
-
-But your program still uses memory. Whether it runs in a browser or the cloud, you are constrained by memory.
-
-I think many people in the room will have seen at least one case where you've had to think about your memory allocations
-because they got out of control, the garbage collector had to do too much work, and it was slowing the application down.
-
-Actually, we should be **thinking about memory more**. We should have more control over it and be more aware of how our programs consume it.
-
----
-
-## ...but managing memory is scary
-
-???
-
-The problem has traditionally been that managing memory ourselves is dangerous.
-
-Accidentally accessing a portion of memory after our variable has been cleared from the region can introduce security bugs and crashes. That's called a "Use after free" bug, and it's
-exactly what caused the major Chrome security flaw in March.
-
-Mutating the same piece of memory in two threads at the same time is risky. That's a race condition. This is a risk even in high level languages
-that supposedly manage memory for you.
-
-
+## Rust makes it safer to do so. Rust has your back.
 
 ---
 
 class: center, middle
 
 # Check the `#rust-course` channel on Slack for a link to the workshop material
+
+---
+
+class: center, middle
+
+## Next week
+
+# Fundamentals
+
+### with Ben T
 
 ---
 
