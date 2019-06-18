@@ -18,6 +18,54 @@ layout: true
 ## Day 1
 
 ---
+
+# Welcome!
+
+--
+
+## Each week will be part slides, part workshop
+
+--
+
+## Join the channel `#rust-course`
+
+--
+
+## Recordings, slides, and workshops will be made available
+
+---
+
+# Course outline
+
+### 1. **What, why, and getting started**
+### 2. Fundamentals (Ben T)
+### 3. Basic data types (Christian S)
+### 4. Tuples, enums, pattern matching (Xidorn)
+### 5. Traits (Josh L)
+
+---
+
+# What is Rust?
+
+## A programming language with
+
+--
+
+## ... no runtime
+
+--
+
+## ... no garbage collector
+
+--
+
+## ... that compiles to native code
+
+--
+
+## ... and it's really fast
+
+---
 .imgFull[![Stack Overflow Survey](./most-loved-lang.png)]
 ---
 
@@ -196,7 +244,7 @@ layout: true
 
 --
 
-### You want to implement a linked list from scratch
+### You want to implement a doubly linked list from scratch
 
 --
 
@@ -437,7 +485,7 @@ changeable, variable, varying, fluctuating, shifting, inconsistent, **unpredicta
 --
 
 ### C
-   > Mutation is dangerous, use it wisely.
+   > Do whatever you want.
 
 --
 
@@ -493,6 +541,64 @@ changeable, variable, varying, fluctuating, shifting, inconsistent, **unpredicta
 --
 
 ## Rust makes it safer to do so. Rust has your back.
+
+---
+
+# Some terminology
+
+## "Unsafe"
+
+Any kind of manual memory allocation/deallocation, raw pointer arithmetic, or sharing memory directly is considered `unsafe`.
+Unsafe code will not compile, unless you wrap it in a block marked `unsafe`. Rust provides enough abstractions that you should almost
+never need to reach for the `unsafe` keyword, but it's there if you need it.
+
+--
+
+## "Zero-cost abstractions"
+
+> What you don’t use, you don’t pay for. And further: What you do use, you couldn’t hand code any better.
+>
+> _~ Bjarne Stroustrup_, creator of C++
+
+---
+
+# Some terminology
+
+## Cargo
+
+Cargo is Rust's build tool, test runner, doc generator, dependency manager, and project scaffolder all in one.
+
+--
+
+## Crate
+
+A crate is a Rust package, similar to a node module. Public crates are listed on the crates.io registry.
+
+--
+
+## Rustup
+
+`rustup` is the tool used for managing the Rust compiler versions and cargo. You can use `rustup` to keep your compiler
+up to date, install specific versions, switch between the stable and nightly version of the compiler, or install new
+target architectures/operating systems to compile to.
+
+---
+
+# Some terminology
+
+## "The Book"
+
+The Rust book is a freely available online book from some core members of the community. It's an extremely detailed, excellent resource for learning the language. Simply google "The Rust Book".
+
+--
+
+## 🦀
+
+The universal emoji for a Rustacean
+
+--
+
+.imgOneThird[![Ferris the Crab](./ferris.svg)]
 
 ---
 
