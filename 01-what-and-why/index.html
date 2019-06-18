@@ -106,11 +106,11 @@ layout: true
 
 # Why Rust?
 
-## WebAssembly
+## WebAssembly (wasm)
 
 --
 
-### What is it?
+### Native-like instruction set that can run anywhere (including browsers)
 
 --
 
@@ -118,7 +118,11 @@ layout: true
 
 --
 
-### Rust is currently the best positioned language to take advantage
+(Figma renders their canvas with it)
+
+--
+
+### Rust is arguably the best positioned language to take advantage of wasm
 
 --
 
@@ -148,7 +152,7 @@ layout: true
 
 --
 
-### For cross-platform apps with no dependencies
+### For cross-platform binaries with no dependencies
 
 --
 
@@ -172,7 +176,7 @@ layout: true
 
 --
 
-### You need to hire a lot of people (for now)
+### When you need to hire a lot of people (for now)
 
 --
 
@@ -188,7 +192,7 @@ layout: true
 
 --
 
-### Embedded applications (for now, chat to Ben)
+### Many embedded applications (for now, but the future is bright. Chat to Ben T)
 
 ---
 
@@ -224,15 +228,25 @@ layout: true
 
 --
 
-### Don't try to write OOP code in Rust
-
---
-
 ### Keep an open mind. It can feel like learning to code again.
 
 --
 
+### (Don't try to write OOP code in Rust)
+
+--
+
 ### Remember, the type system is there to help you
+
+--
+
+### Eventually, the compiler will start to feel like your code-pair
+
+---
+
+class: center, middle
+
+# A sampling of Rust's features
 
 ---
 
@@ -302,6 +316,20 @@ let color = match rgb {
   Rgb { b: 255, g, r } if g < 100 && r < 100  => "blue",
   _ => panic!("Unknown color!")
 };
+```
+
+--
+
+## Includes exhaustive checking
+
+```rust
+error[E0004]: non-exhaustive patterns: `_` not covered
+  --> src/main.rs:17:23
+
+17 |       let color = match rgb {
+   |                         ^^^ pattern `_` not covered
+   |
+   = help: ensure that all possible cases are being handled, possibly by adding wildcards or more match arms
 ```
 
 ---
