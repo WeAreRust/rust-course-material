@@ -24,3 +24,15 @@ font-weight: normal;
 .remark-slide-content {
     background-color: #f07b5b;
 }
+
+.absright {
+}
+
+.absright img {
+
+    position: absolute;
+    display: block;
+    right: 0;
+    top: 0;
+    height: 100%;
+}

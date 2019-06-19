@@ -126,7 +126,19 @@ layout: true
 
 ---
 
-![Rust Logo](./memory-safety.svg)
+![Memory Safety Linux](./memory-safety.svg)
+
+---
+
+![Memory Safety Microsoft](./ms-memory-1.png)
+
+https://www.zdnet.com/article/microsoft-70-percent-of-all-security-bugs-are-memory-safety-issues/
+
+---
+
+![CVE Cause Microsoft](./ms-memory-2.png)
+
+https://www.zdnet.com/article/microsoft-70-percent-of-all-security-bugs-are-memory-safety-issues/
 
 ---
 
@@ -157,6 +169,71 @@ layout: true
 # If C is like playing with knives and C++ is like juggling chainsaws then Rust is like parkour wearing protective gear while suspended from strings. It may look ridiculous at times, but you can do all sorts of awesome moves that would be damn scary or outright impossible without it.
 
 `u/llogiq` on `r/rust`
+
+---
+
+# Mutability
+
+--
+
+## *Mut*able == Can mutate
+
+--
+
+#### /ˈmjuːtəb(ə)l/
+changeable, variable, varying, fluctuating, shifting, inconsistent, **unpredictable**, inconstant, **uncertain**, fluid, erratic, irregular, uneven, unsettled, unstable, unsteady
+
+---
+
+# How do we deal with mutability?
+
+--
+
+### C
+   > Do whatever you want.
+
+--
+
+### Object Oriented Programming
+   > Encapsulate mutable state and hide it behind methods. Use `private` so it can't be accessed.
+
+--
+
+### Functional Programming
+   > Mutation is bad! Don't mutate anything! Make a copy if you need to change something.
+
+--
+
+### Rust
+   > In real world applications, mutation is inevitable, so we'll add some compiler rules to make it safe.
+
+
+
+---
+
+# The ownership system
+
+## Three rules of data in Rust
+
+--
+
+### - There can only be *one* owner (at a time)
+
+--
+
+### and either:
+
+--
+
+#### - *Many* read-only borrows; OR
+
+--
+
+#### - *One* mutable borrow
+
+--
+
+.absright[![Postit placeholders](./ownership.png)]
 
 ---
 
@@ -331,7 +408,7 @@ let rgb = match color {
   "green" => Rgb { r: 0, g: 255, b: 0 },
   "blue"  => Rgb { r: 0, g: 0, b: 255 },
   _ => panic!("Unknown color!")
-};
+};  // --> `Rgb`
 set_color(rgb)
 ```
 
@@ -345,7 +422,7 @@ let color = match rgb {
   Rgb { r: 0, g: 255, b: 0 }  => "green",
   Rgb { r: 0, g: 0, b: 255 }  => "blue",
   _ => panic!("Unknown color!")
-};
+};   // --> `&str`
 ```
 
 ---
@@ -358,7 +435,7 @@ let color = match rgb {
   Rgb { g: 255, .. }  => "green",
   Rgb { b: 255, .. }  => "blue",
   _ => panic!("Unknown color!")
-};
+};   // --> `&str`
 ```
 
 ---
@@ -371,7 +448,7 @@ let color = match rgb {
   Rgb { g: 255, r, b } if r < 100 && b < 100  => "green",
   Rgb { b: 255, g, r } if g < 100 && r < 100  => "blue",
   _ => panic!("Unknown color!")
-};
+};   // --> `&str`
 ```
 
 --
@@ -379,11 +456,11 @@ let color = match rgb {
 ## Includes exhaustive checking
 
 ```rust
-error[E0004]: non-exhaustive patterns: `_` not covered
+error[E0004]: non-exhaustive patterns: _ not covered
   --> src/main.rs:17:23
 
 17 |       let color = match rgb {
-   |                         ^^^ pattern `_` not covered
+   |                         ^^^ pattern _ not covered
    |
    = help: ensure that all possible cases are being handled, possibly by adding wildcards or more match arms
 ```
@@ -401,8 +478,7 @@ error[E0004]: non-exhaustive patterns: `_` not covered
 ### `Option<T>`
 
 ```rust
-let `definition` = dictionary.get("colorful");
-//  ^^^^^^^^^^ This is an Option<String>
+let `definition` = dictionary.get("colorful");  // --> `Option<&str>`
 
 match definition {
   Some(def) => println!("The definition of this word is: {}", def),
@@ -414,8 +490,8 @@ match definition {
 
 ```rust
 let definition = dictionary
-  .get("colorful")
-  .unwrap_or("No definition found");
+  .get("colorful")                    // --> `Option<&str>`
+  .unwrap_or("No definition found");  // --> `&str`
 
 println!("The definition of this word is: {}", definition);
 ```
@@ -427,11 +503,16 @@ println!("The definition of this word is: {}", definition);
 
 --
 
-### `Result<T, Err>`
+### Panics will kill the process by default and are generally treated as bugs.
+
+--
+
+### For expected errors, use `Result<T, Err>`
+
+--
 
 ```rust
-let `file_result` = File::open("foo.txt");
-//  ^^^^^^^^^^^ This is a Result<File, Err>
+let `file_result` = File::open("foo.txt");   // --> `Result<File, Err>`
 
 match file_result {
   Ok(file)   => /* Do something with the file  */,
@@ -465,67 +546,6 @@ struct Person {
     city: String,
 }
 ```
----
-
-# Mutability
-
---
-
-## *Mut*able == Can mutate
-
---
-
-#### /ˈmjuːtəb(ə)l/
-changeable, variable, varying, fluctuating, shifting, inconsistent, **unpredictable**, inconstant, **uncertain**, fluid, erratic, irregular, uneven, unsettled, unstable, unsteady
-
----
-
-# How do we deal with mutability?
-
---
-
-### C
-   > Do whatever you want.
-
---
-
-### Object Oriented Programming
-   > Encapsulate mutable state and hide it behind methods. Use `private` so it can't be accessed.
-
---
-
-### Functional Programming
-   > Mutation is bad! Don't mutate anything! Make a copy if you need to change something.
-
---
-
-### Rust
-   > In real world applications, mutation is inevitable, so we'll add some compiler rules to make it safe.
-
----
-
-# Three rules of data in Rust
-
---
-
-## - There can only be *one* owner (at a time)
-
---
-
-## and either:
-
---
-
-### - *Many* read-only borrows; OR
-
---
-
-### - *One* mutable borrow
-
----
-
-# The ownership system
-
 ---
 
 # Lower level languages force you to think about memory
