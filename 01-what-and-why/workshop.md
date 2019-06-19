@@ -119,7 +119,7 @@ The `#[derive(Serialize, Deserialize)]` is another compile time macro (it's actu
 Parse some JSON back into the data structure and print the title to the console:
 
 ```rust
-let json = "{ id: 2, \"title\": \"Dog pics\", \"url\": \"...\" }";
+let json = "{ \"id\": 2, \"title\": \"Dog pics\", \"url\": \"...\" }";
 
 // TODO: Print just the title
 ```
