@@ -120,35 +120,32 @@ fn ownership_mutable_borrow() {
 
 #[test]
 fn ownership_closure_borrow() {
-    // TODO: Fix this one :-(
-    let mut x = String::from("hello");
-    let check_x = || {
-        // this closure immutably borrows x (i.e. &x)
-        assert_eq!(&x, "hello");
+    let mut message = String::from("hello");
+    let check_message = || {
+        // this closure immutably borrows message (i.e. &message)
+        assert_eq!(&message, "hello");
     };
 
-    // x += 1; // uncomment me...
-    // check_x();
-    // x.push_str(" world");
-    // assert_eq!(x, String::from("hello world");
+    // message.push_str(" everyone!"); // uncomment me...
+    check_message();
+    message.push_str(" world");
+    assert_eq!(message, String::from("hello world"));
 }
 
 #[test]
 fn ownership_closure_mutable_borrow() {
-    // TODO: simplify
-    let mut x = 3;
-    let mut inc_x = || {
+    let mut message = String::from("hello");
+    let mut add_world = || {
         // this closure mutably borrows x (i.e. &mut x)
-        x += 1;
+        message.push_str(" world");
     };
 
-    // assert_eq!(x, 3); // uncomment me...
-    inc_x();
-    assert_eq!(x, 4);
+    // assert_eq!(message, "hello"); // uncomment me...
+    add_world();
+    assert_eq!(message, "hello world");
 }
 #[test]
 fn ownership_closure_move() {
-    // TODO: simplify
     let mut message = String::from("Hello");
     let mut finish_message = move || {
         // this closure takes ownership of message
@@ -167,7 +164,7 @@ fn ownership_return_borrow() {
     //     let three = 3;
     //     &three
     // }
-    
+
     // assert_eq!(bad_function(), &3);
 }
 
@@ -175,16 +172,35 @@ fn ownership_return_borrow() {
 
 #[test]
 fn explicit_lifetimes() {
-    fn smallest<'a>(first: &'a u8, second: &'a u8) -> &'a u8 {
-        if first <= second {
+    fn shortest_name<'a>(first: &'a str, second: &'a str) -> &'a str {
+        if first.len() <= second.len() {
             first
         } else {
             second
         }
     }
 
-    // TODO: demonstrate lifetimes
-    assert_eq!(smallest(&2, &1), &1);
+    {   
+        // -- 'ben start
+        let ben = String::from("Ben");
+
+        let name = {
+            // -- 'tristan start
+            let tristan = String::from("Tristan");  
+
+            let shortest = shortest_name(&ben, &tristan);
+
+            assert_eq!(shortest, "Ben");
+
+            "" // replace me with shortest...
+
+            // -- 'tristan end
+        };                                           
+
+        assert_eq!(name, "Ben");
+
+        // -- 'ben end
+    }
 }
 
 // Generics
