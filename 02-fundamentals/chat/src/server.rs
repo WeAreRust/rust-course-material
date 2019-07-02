@@ -63,6 +63,8 @@ impl Server {
     }
 
     fn handle_datagram(&mut self, datagram: Datagram, address: SocketAddr) {
+        debug!("Handling: {}", datagram.serialize());
+
         match datagram {
             Datagram::Subscribe(d) => self.handle_subscribe(d, address),
             Datagram::Unsubscribe(d) => self.handle_unsubscribe(d, address),
