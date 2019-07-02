@@ -13,7 +13,6 @@ use client::Client;
 use protocol::{Datagram, PublishDatagram};
 use server::Server;
 use std::net::SocketAddrV4;
-use std::time::Duration;
 
 const DEFAULT_UDP_PORT: u16 = 31337;
 
@@ -64,7 +63,7 @@ fn main() {
                         .short("m")
                         .long("message")
                         .value_name("MESSAGE")
-                        .help("Message to send on connect, or each each interval")
+                        .help("Message to send on connect")
                         .takes_value(true),
                 ),
         )

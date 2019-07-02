@@ -41,12 +41,14 @@ impl Datagram {
         })
     }
 
+    #[cfg(test)]
     pub fn unsubscribe<C: Into<String>>(channel: C) -> Self {
         Datagram::Unsubscribe(UnsubscribeDatagram {
             channel: channel.into(),
         })
     }
 
+    #[cfg(test)]
     pub fn publish<C, N, M>(channel: C, display_name: N, message: M) -> Self
     where
         C: Into<String>,
@@ -60,6 +62,7 @@ impl Datagram {
         })
     }
 
+    #[cfg(test)]
     pub fn error<M: Into<String>>(message: M) -> Self {
         Datagram::Error(message.into())
     }
