@@ -1,0 +1,10 @@
+[package]
+name = "chat"
+version = "0.1.0"
+authors = ["Benjamin Thompson <me@benjaminjt.com>"]
+edition = "2018"
+
+[dependencies]
+clap = "2"
+log = "0.4"
+env_logger = "0.6"
