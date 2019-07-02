@@ -44,10 +44,19 @@ fn main() {
                         .short("s")
                         .long("server")
                         .value_name("SERVER_ADDRESS")
-                        .help("IPv4 address of the server (e.g. 127.0.0.1:1337)")
+                        .help("IPv4 address of the server (e.g. 127.0.0.1:31337)")
                         .validator(validate_ipv4_address)
                         .takes_value(true)
                         .required(true),
+                )
+                .arg(
+                    Arg::with_name("port")
+                        .short("p")
+                        .long("port")
+                        .value_name("PORT")
+                        .help("Select a port to listen on for replies")
+                        .takes_value(true)
+                        .validator(validate_u16_arg),
                 )
                 .arg(
                     Arg::with_name("channel")
@@ -88,12 +97,16 @@ fn validate_ipv4_address(s: String) -> Result<(), String> {
 
 pub fn run_client(app: &ArgMatches) {
     let server_address_arg = app.value_of("server_address").unwrap();
+    let port_arg = match app.value_of("port") {
+        Some(s) => s.parse().unwrap(),
+        None => 0,
+    };
     let channels_arg = app.values_of("channel");
     let message_arg = app
         .value_of("message")
         .map(|s| Datagram::Publish(PublishDatagram::parse(s).unwrap()));
 
-    let client = Client::new(0, server_address_arg.parse().unwrap()).unwrap();
+    let client = Client::new(port_arg, server_address_arg.parse().unwrap()).unwrap();
 
     // Send a message
     if let Some(message) = &message_arg {
