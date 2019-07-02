@@ -106,20 +106,15 @@ pub fn run_client(app: &ArgMatches) {
     if let Some(channels) = channels_arg {
         channels.for_each(|channel| client.send(&Datagram::subscribe(channel)).unwrap());
     } else {
+        // Nothing else to do if we're not subscribing
         return;
     }
 
     loop {
-        // Listen for the interval (this should block forever if it is None)
-        if let Some(datagram) = client.listen(interval) {
+        if let Some(datagram) = client.listen(None) {
             println!("{}", datagram.serialize());
         } else {
             debug!("No messages recieved...");
-        }
-
-        // Send a message
-        if let Some(datagram) = &message {
-            client.send(datagram).unwrap();
         }
     }
 }
