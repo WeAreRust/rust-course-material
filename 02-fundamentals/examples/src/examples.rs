@@ -11,11 +11,13 @@ fn this_is_a_test() {
 fn scopes() {
     // We can use a block expression to create a scope
     if true {
-        //                          --- start of scope
+        //  -- start of scope
+
         let x = "foo";
 
         assert_eq!(x, "foo");
-        //                          --- end of scope
+
+        //  -- end of scope
     }
 
     // assert_eq!(x, "foo"); // uncomment me...
@@ -39,7 +41,9 @@ fn mut_argument() {
 
     fn inc(mutable: u8) -> u8 {
         // mutable += 1; // uncomment me...
+
         // try mutating x...
+
         return mutable;
     }
 
