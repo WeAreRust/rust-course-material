@@ -1,8 +1,16 @@
+// Test
+
+#[test]
+fn this_is_a_test() {
+    unimplemented!();
+}
+
 // Scopes
+
 #[test]
 fn scopes() {
     // We can use a block expression to create a scope
-    {
+    if true {
         //                          --- start of scope
         let x = "foo";
 
@@ -27,16 +35,18 @@ fn mut_variable() {
 
 #[test]
 fn mut_argument() {
+    let x = 3;
+
     fn inc(mutable: u8) -> u8 {
         // mutable += 1; // uncomment me...
+        // try mutating x...
         return mutable;
     }
 
-
-    let x = 3;
     let y = inc(x);
     assert_eq!(y, 4);
 }
+
 #[test]
 fn mut_closure() {
     let x = 3;
@@ -78,7 +88,7 @@ fn ownership_move() {
 
 #[test]
 fn ownership_borrow() {
-    let x = 3;
+    let mut x = 3;
 
     let borrow_a = &x;
     let borrow_b = &x;
@@ -96,32 +106,36 @@ fn ownership_mutable_borrow() {
     }
 
     let mut x = 3;
-    let mut borrow = &mut x;
-    // let mut borrow_b = &x; // uncomment me...
+    inc_mutable(&mut x);
+    assert_eq!(x, 4);
+
+    let borrow = &mut x;
+
+    // let borrow_b = &x; // uncomment me...
     // x += 1;  // uncomment me...
 
-    inc_mutable(&mut borrow);
-
-    assert_eq!(borrow, &4);
+    inc_mutable(borrow);
     assert_eq!(x, 5);
 }
 
 #[test]
 fn ownership_closure_borrow() {
-    let mut x = 3;
+    // TODO: Fix this one :-(
+    let mut x = String::from("hello");
     let check_x = || {
         // this closure immutably borrows x (i.e. &x)
-        assert_eq!(x, 3);
+        assert_eq!(&x, "hello");
     };
 
     // x += 1; // uncomment me...
-    check_x();
-    x += 1;
-    assert_eq!(x, 5);
+    // check_x();
+    // x.push_str(" world");
+    // assert_eq!(x, String::from("hello world");
 }
 
 #[test]
 fn ownership_closure_mutable_borrow() {
+    // TODO: simplify
     let mut x = 3;
     let mut inc_x = || {
         // this closure mutably borrows x (i.e. &mut x)
@@ -134,6 +148,7 @@ fn ownership_closure_mutable_borrow() {
 }
 #[test]
 fn ownership_closure_move() {
+    // TODO: simplify
     let mut message = String::from("Hello");
     let mut finish_message = move || {
         // this closure takes ownership of message
@@ -152,7 +167,7 @@ fn ownership_return_borrow() {
     //     let three = 3;
     //     &three
     // }
-    //
+    
     // assert_eq!(bad_function(), &3);
 }
 
@@ -168,6 +183,7 @@ fn explicit_lifetimes() {
         }
     }
 
+    // TODO: demonstrate lifetimes
     assert_eq!(smallest(&2, &1), &1);
 }
 
