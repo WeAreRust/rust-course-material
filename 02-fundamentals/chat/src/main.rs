@@ -88,23 +88,23 @@ fn validate_ipv4_address(s: String) -> Result<(), String> {
 }
 
 pub fn run_client(app: &ArgMatches) {
-    let server_address: SocketAddrV4 = app.value_of("server_address").unwrap().parse().unwrap();
+    let server_address_arg = app.value_of("server_address").unwrap();
     let channels_arg = app.values_of("channel");
-    let message = app
+    let message_arg = app
         .value_of("message")
         .map(|s| Datagram::Publish(PublishDatagram::parse(s).unwrap()));
-    let interval: Option<Duration> = app
-        .value_of("interval")
-        .map(|s| Duration::from_secs(s.parse().unwrap()));
-    let client = Client::new(0, server_address).unwrap();
+
+    let client = Client::new(0, server_address_arg.parse().unwrap()).unwrap();
 
     // Send a message
-    if let Some(datagram) = &message {
-        client.send(datagram).unwrap();
+    if let Some(message) = &message_arg {
+        client.send(message).unwrap();
     }
 
     if let Some(channels) = channels_arg {
-        channels.for_each(|channel| client.send(&Datagram::subscribe(channel)).unwrap());
+        for channel in channels {
+            client.send(&Datagram::subscribe(channel)).unwrap();
+        }
     } else {
         // Nothing else to do if we're not subscribing
         return;
