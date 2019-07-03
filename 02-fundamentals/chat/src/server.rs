@@ -111,7 +111,7 @@ impl Server {
 }
 
 #[cfg(test)]
-mod protocol_tests {
+mod server_tests {
     use super::*;
     use crate::Client;
     use std::thread;
