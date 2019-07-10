@@ -1,0 +1,10 @@
+{
+  "editor.tabSize": 2,
+  "editor.quickSuggestions": {
+      "other": true,
+      "comments": true,
+      "strings": true
+  },
+  "editor.quickSuggestionsDelay": 100,
+  "editor.suggestOnTriggerCharacters": true,
+}
