@@ -1,0 +1,7 @@
+[package]
+name = "custom-data-types"
+version = "0.1.0"
+authors = ["Xidorn Quan <me@upsuper.org>"]
+edition = "2018"
+
+[dependencies]

@@ -1,0 +1,8 @@
+[package]
+name = "calc"
+version = "0.1.0"
+authors = ["Xidorn Quan <me@upsuper.org>"]
+edition = "2018"
+
+[dependencies]
+combine = "3.8.1"
