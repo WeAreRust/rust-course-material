@@ -1,6 +1,6 @@
 # Basic data types
 
-[Link to the presentation](https://www.canva.com/design/DADdSKhNnQU/ucBaOxWDWyxH1_XSTgUpuA/edit)
+[Link to the presentation](https://www.canva.com/design/DADdSKhNnQU/ucBaOxWDWyxH1_XSTgUpuA/view?utm_content=DADdSKhNnQU&utm_campaign=designshare&utm_medium=link&utm_source=sharebutton)
 
 ## Workshop
 
