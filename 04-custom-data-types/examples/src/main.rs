@@ -50,6 +50,11 @@ fn tuple_destruct_mut_reference() {
     assert_eq!(a, &vec![1, 2, 3, 4]);
     assert_eq!(b, &String::from("hello world"));
     assert_eq!(c, &&false);
+
+    assert_eq!(
+        foo,
+        (vec![1, 2, 3, 4], String::from("hello world"), &false),
+    );
 }
 
 #[test]
