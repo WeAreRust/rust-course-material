@@ -1,5 +1,7 @@
 # Workshop
 
+In this workshop, we are going to implement a simple expression calculator.
+
 * update local clone of `rust-course-material`
 * `cd 04-custom-data-types/calc`
 
