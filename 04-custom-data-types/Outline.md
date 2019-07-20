@@ -1,0 +1,39 @@
+# Outline
+
+- Tuple and struct
+    - tuple
+        - instantiating and destructing
+        - dot notation
+        - empty tuple → unit type
+    - struct
+        - instantiating
+            - `Struct { field: value }`
+            - `Struct { field }`
+            - `Struct { field, ..another }`
+        - accessing content: dot notation & destructure
+        - tuple struct & unit-like struct
+- Method and associated function
+    - method syntax, `&self`, `&mut self`, and `self`
+    - associated function (over constructor)
+    - privacy
+        - private by default, and it's `mod` level
+        - `pub` and `pub(mod)` syntax
+- Enum
+    - three kinds of variants (unit, unnamed, and named)
+    - method
+- Pattern matching
+    - match enum variants
+    - `match` is exhaustive and `_` placeholder
+    - match against number, string, multiple items (via `|`), and range of numbers
+    - value binding
+        - ignoring parts via `..`
+        - `@` binding
+        - ownership and borrowing of binding variable
+        - legacy usage of `ref` and `ref mut`
+    - nested matching
+    - match guard
+    - `if let` and `while let`
+    - other places with pattern matching
+        - `let` statement
+        - `for` loop
+        - function parameter
