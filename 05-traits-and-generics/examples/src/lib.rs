@@ -1,14 +1,5 @@
-// Rust Workshop 5
-// Generics Types and Traits
-//
-// ---
-//
-// 1. Intro to Generics (fns, enums, and structs)
-// 2. Trait Bounds
-// 3. Common and custom Traits
-// 4. Trait Trait Bounds
-// 5. Deriving trait impls
-// 6. Generic traits and Associated Types
+//! Rust Workshop 5
+//! Generics Types and Traits
 
 #![allow(dead_code, unused_imports, unused_variables)]
 
@@ -27,8 +18,8 @@ fn generic_function() {
     let a = do_foo(10);
     assert_eq!(a, 10);
 
-    // do_foo::<String>
-    let b = do_foo(String::from("abc"));
+    // do_foo::<&str>
+    let b = do_foo("abc");
     assert_eq!(b, "abc");
 }
 
@@ -40,8 +31,10 @@ fn generic_enum() {
     }
 
     // Foo<i32>
-    #[allow(unused)]
     let a = Foo::Baz(10);
+
+    // Foo<&str>
+    let b = Foo::Baz("abc");
 }
 
 #[test]
@@ -55,10 +48,8 @@ fn generic_struct() {
     let a = Foo { x: 10 };
     assert_eq!(a.x, 10);
 
-    // Foo<String>
-    let b = Foo {
-        x: String::from("abc"),
-    };
+    // Foo<&str>
+    let b = Foo { x: "abc" };
     assert_eq!(b.x, "abc");
 }
 
@@ -109,10 +100,6 @@ fn unused_generics() {
         x: u32,
         y: T, // <- comment me
     }
-
-    fn do_foo<T>() {
-        // Not defining a type so it's fine.
-    }
 }
 
 #[test]
@@ -124,6 +111,8 @@ fn generics_without_inference() {
 
     // assert_eq!(do_foo(), "abc"); // <- uncomment me
     assert_eq!(do_foo::<()>(), "abc");
+
+    // Turbofish ::<>
 }
 
 #[test]
@@ -146,7 +135,8 @@ fn trait_bounds_single() {
     use std::fmt::Debug;
 
     // fn show<T>(a: T) {   // <- uncomment me
-    fn show<T: Debug>(a: T) {   // <- comment me
+    fn show<T: Debug>(a: T) {
+        // <- comment me
         println!("{:?}", a);
     }
 }
@@ -272,81 +262,42 @@ fn trait_bounds_impl_distinct() {
 //
 
 #[test]
-fn generic_shortest_fn() {
-    // Let's go back to this function
-    fn shortest<'a>(x: &'a str, y: &'a str) -> &'a str {
-        if x.len() < y.len() {
-            return x;
-        }
-        y
-    }
-
-    assert_eq!(shortest("ben", "tristan"), "ben");
-
-    // We could use the AsRef trait bound
-    fn shortest_generic<'a, T, U>(x: &'a T, y: &'a T) -> &'a T
-    where
-        T: ?Sized + AsRef<[U]>,
-    {
-        if x.as_ref().len() < y.as_ref().len() {
-            return x;
-        }
-        y
-    }
-
-    assert_eq!(shortest_generic("ben", "tristan"), "ben");
-}
-
-#[test]
-fn haslength_custom_trait() {
-    // Or... in a super contrived example
-    // We can create out own trait
+fn custom_trait() {
     trait HasLength {
         fn my_len(&self) -> usize;
     }
 
-    // Obeys the Orphan Rule:
-    //  - either the trait or the type must be in the crate (or both)
-    impl HasLength for str {
+    struct Foo;
+
+    impl HasLength for Foo {
         fn my_len(&self) -> usize {
-            self.len()
+            0
         }
     }
 
-    fn shortest_generic<'a, T>(x: &'a T, y: &'a T) -> &'a T
-    where
-        T: ?Sized + HasLength,
-    {
-        if x.my_len() < y.my_len() {
-            return x;
-        }
-        y
-    }
-
-    assert_eq!(shortest_generic("ben", "tristan"), "ben");
+    let x = Foo;
+    assert_eq!(x.my_len(), 0);
 }
 
-#[test]
-fn default_trait_functions() {
+fn custom_trait_default() {
     trait HasLength {
         fn my_len(&self) -> usize;
 
-        fn my_is_empty(&self) -> bool {
+        fn is_empty(&self) -> bool {
             self.my_len() == 0
         }
     }
 
-    impl HasLength for str {
+    struct Foo;
+
+    impl HasLength for Foo {
         fn my_len(&self) -> usize {
-            self.len()
+            0
         }
     }
 
-    assert!(!"abc".my_is_empty());
-    assert_eq!("abc".my_len(), 3);
-
-    assert!("".my_is_empty());
-    assert_eq!("".my_len(), 0);
+    let x = Foo;
+    assert!(x.is_empty());
 }
 
 #[test]
@@ -354,26 +305,26 @@ fn default_trait_functions_impl_over() {
     trait HasLength {
         fn my_len(&self) -> usize;
 
-        fn my_is_empty(&self) -> bool {
+        fn is_empty(&self) -> bool {
             self.my_len() == 0
         }
     }
 
-    impl HasLength for str {
+    struct Foo;
+
+    impl HasLength for Foo {
         fn my_len(&self) -> usize {
-            self.len()
+            0
         }
 
-        fn my_is_empty(&self) -> bool {
+        // Override HasLength::is_empty
+        fn is_empty(&self) -> bool {
             false
         }
     }
 
-    assert!(!"abc".my_is_empty());
-    assert_eq!("abc".my_len(), 3);
-
-    assert!(!"".my_is_empty());
-    assert_eq!("".my_len(), 0);
+    let x = Foo;
+    assert!(!x.is_empty());
 }
 
 #[test]

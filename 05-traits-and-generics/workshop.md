@@ -1,9 +1,9 @@
 # Workshop 5
 
-For this workshop, we will implement some logic around points in space.
+For this workshop, we will implement a type that represents a 2D point in space.
 
-We'll start with 2D points where coordinates are of type `i32`. Then we'll see
-if we can make `Point2D` more generic.
+We will start with a structure, `Point2D`, that contains coordinates `x`, and
+`y`, both of type `i32`. Then we'll see if we can make `Point2D` more generic.
 
 ## 1. Point comparison
 
@@ -51,10 +51,10 @@ have `Point2D<T>` where the coordinates are of type `T`. For example
 
 ### Notes on ordering your generic Point2D
 
-For simplicity and brevity of this workshop, we suggest not implementing `Ord`
-for your generic implementation of `Point2D`. This is because `f32` doesn't
-implement the `Ord` trait, only `PartialOrd`, and sorting a `Vec<T>` requires
-that `T` implements `Ord`.
+For simplicity and brevity, we suggest not implementing `Ord` for your generic
+implementation of `Point2D`. This is because `f32` doesn't implement the `Ord`
+trait, only `PartialOrd`, and sorting a `Vec<T>` requires that `T` implements
+`Ord`. This isn't a blocker, but it does make things a little bit trickier.
 
 If you feel up to it though, don't let us stop you! We'll be more than happy to
 help out as you go.

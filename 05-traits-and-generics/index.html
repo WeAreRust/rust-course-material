@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rust - Intro Course</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+layout: true
+---
+
+# Rust
+
+## Day 5. Generics and Traits
+
+---
+
+## Theory of Traits
+
+--
+
+## Generics
+## Trait Bounds
+## Common and custom traits
+## Traits with Trait Bounds
+## Deriving Trait impls
+
+--
+
+## Generic Traits & Associated Types
+
+---
+
+Theory of Traits
+
+## This is a trait
+
+```rust
+trait MyTrait {
+    fn foo(&self, n: u8);
+
+
+    fn bar(&self) -> MyStruct;
+}
+```
+
+--
+
+## And what is it used for?
+
+- You can think of them like interfaces but...
+
+--
+
+# They're not interfaces!
+
+---
+
+Theory of Traits
+
+- A way to guarantee that a __type__ has some __functionality__.
+
+--
+
+- Remember the `impl` block we used to add functionality.
+
+```rust
+struct RustCourse;
+
+impl RustCourse {
+    // We are adding some functionality to the RustCourse type
+    fn is_rusty(&self) -> bool {
+        true
+    }
+}
+```
+
+```rust
+struct NonRustCourse;
+
+impl NonRustCourse {
+    fn is_rusty(&self) -> bool {
+        false
+    }
+}
+```
+
+--
+
+## Need some way to guarantee this
+
+---
+
+Theory of Traits
+
+## We can use a Trait
+
+```rust
+trait Course {
+    fn is_rusty(&self) -> bool;
+}
+```
+
+--
+
+## And add functionality in a guaranteed way
+
+```rust
+impl Course for RustCourse {
+    fn is_rusty(&self) -> bool {
+        true
+    }
+}
+
+impl Course for NonRustCourse {
+    fn is_rusty(&self) -> bool {
+        false
+    }
+}
+```
+
+---
+
+Theory of Traits
+
+## Looks a lot like an interface right?
+
+# They're not interfaces!
+
+---
+
+Theory of Traits
+
+## Dispatching function calls
+
+### __Traits__ are __statically__ dispatched
+
+Process called monomorphization
+
+### __Interfaces__ are __dynamically__ dispatched
+
+VTables
+
+--
+
+## Also don't do OOP in Rust
+
+---
+
+Theory of Traits
+
+## Static dispatched is...
+
+--
+
+### Faster & more efficient
+
+No runtime overhead since function calls are resolved at compile time rather
+than at runtime.
+
+### And also less flexible
+
+Must know types at compile time.
+
+But Rust has a way to do dynamic dispatch as well, with __Trait Objects__
+
+--
+
+... but that's outside the scope of this talk -
+[interesting flowchart](http://thume.ca/assets/postassets/generics/flowchart.pdf)
+
+---
+
+Theory of Traits
+
+## What does all this give us?
+
+---
+
+Theory of Traits
+
+## Futures
+
+- Like promises
+- Allow asyncronous execution
+- No overhead, no required runtime, just traits
+
+--
+
+```rust
+pub trait Future {
+    type Output;
+
+    fn poll(&mut Self, cx: &mut Context) -> Poll<Self::Output>;
+}
+```
+
+--
+
+Use them anywhere and anywhere (async/await not yet stable)
+
+---
+
+Theory of Traits
+
+## Iterators
+
+- Personally, a little surprising how powerful they are
+- Sometimes more efficient than `for` loops
+- Like `Future`, this is a ZCA.
+
+--
+
+[iterators docs](https://doc.rust-lang.org/std/iter/trait.Iterator.html)
+
+--
+
+Will work on the most restricted hardware to the most powerful supercomputer.
+
+---
+
+Theory of Traits
+
+Just before we jump into code.
+
+--
+
+## Rayon (crate)
+
+```rust
+use rayon::prelude::*;
+fn sum_of_squares(input: &[i32]) -> i32 {
+  input.par_iter() // <-- just change that!
+       .map(|&i| i * i)
+       .sum()
+}
+```
+
+--
+
+Go check it out!
+
+---
+
+# To the code!!!
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
