@@ -110,9 +110,10 @@ fn generics_without_inference() {
     }
 
     // assert_eq!(do_foo(), "abc"); // <- uncomment me
-    assert_eq!(do_foo::<()>(), "abc");
+    assert_eq!(do_foo::<i32>(), "abc");
 
     // Turbofish ::<>
+    // Awesome... but rare
 }
 
 #[test]
@@ -160,7 +161,8 @@ fn trait_bounds_where_syntax() {
 
     fn show_ne<T>(a: T, b: T)
     where
-        T: Debug + PartialEq,
+        T: Debug,
+        T: PartialEq,
     {
         if a != b {
             println!("{:?} != {:?}", a, b);
@@ -219,6 +221,15 @@ fn trait_bounds_impl_uniform() {
 
     struct Foo<T: Debug>(T);
 
+    // comment me
+    // impl Foo<i32> {
+    //     fn show_inner(&self) {
+    //         println!("{:?}", self.0);
+    //     }
+    // }
+
+    // let x = Foo(10); // <- comment me
+
     impl<T: Debug> Foo<T> {
         fn show_inner(&self) {
             println!("{:?}", self.0);
@@ -238,16 +249,23 @@ fn trait_bounds_impl_distinct() {
 
     struct Foo<T>(T);
 
+    // impl Foo<i32> {
+    //     fn show_inner(&self) {
+    //         println!("{:?}", self.0);
+    //     }
+    // }
+
     impl<T: Debug> Foo<T> {
         fn show_inner(&self) {
             println!("{:?}", self.0);
         }
     }
 
+    // #[derive(Debug)]
     struct MyType;
 
     let x = Foo(MyType);
-    // x.show_inner();  // uncomment me
+    // x.show_inner(); // uncomment me
 }
 
 //
@@ -279,6 +297,7 @@ fn custom_trait() {
     assert_eq!(x.my_len(), 0);
 }
 
+#[test]
 fn custom_trait_default() {
     trait HasLength {
         fn my_len(&self) -> usize;
@@ -370,19 +389,31 @@ fn powerful_use_case_for_functions() {
         a.into() + &b.into()
     }
 
-    assert_eq!(concat("a", "b"), "ab");
+    assert_eq!(concat("a", "b"), String::from("ab"));
     assert_eq!(concat(String::from("a"), "b"), "ab");
 
+    // assert_eq!(concat(10, "a"), "10a");  // uncomment me (1st)
+
+    // uncomment me (2nd)
+    // impl From<u32> for String {
+    //     fn from(v: u32) -> Self {
+    //         v.to_string()
+    //     }
+    // }
+
+    // uncomment me (3rd)
     // Getting around the orphan rule.
-    struct Foo(u32);
+    // struct Vec {
+    //     inner: RawVec
+    // }
 
-    impl From<Foo> for String {
-        fn from(foo: Foo) -> Self {
-            format!("{}", foo.0)
-        }
-    }
+    // impl From<Foo> for String {
+    //     fn from(foo: Foo) -> Self {
+    //         format!("{}", foo.0)
+    //     }
+    // }
 
-    assert_eq!(concat(Foo(10), "a"), "10a");
+    // assert_eq!(concat(Foo(10), "a"), "10a");
 }
 
 //
@@ -433,8 +464,6 @@ fn derive_debug() {
 
 #[test]
 fn derive_multiple() {
-    // Order is technically important
-    // But 99.9% of the time it won't matter
     #[derive(Debug, PartialEq)]
     struct A;
 
@@ -454,12 +483,13 @@ fn derive_multiple() {
 // - This is considered Adv Rust (by The Book)
 
 #[test]
-fn default_trait() {
+fn generic_trait_partialeq() {
     // TODO: Jump to PartialEq docs.
 
     #[derive(Debug)]
     struct Foo;
 
+    // Rhs = Right Hand Side
     impl PartialEq for Foo {
         fn eq(&self, other: &Self) -> bool {
             true
@@ -474,14 +504,15 @@ fn default_trait() {
     struct Bar;
 
     // 2nd impl of PartialEq for Foo
-    // impl PartialEq<Bar> for Foo {    // uncomment me (2nd)
-    //     fn eq(&self, other: &Bar) -> bool {
-    //         true
-    //     }
-    // }
+    impl PartialEq<Bar> for Foo {
+        // uncomment me (2nd)
+        fn eq(&self, other: &Bar) -> bool {
+            true
+        }
+    }
 
     let z = Bar;
-    // assert_eq!(x, z);   // uncomment me (1st)
+    assert_eq!(x, z); // uncomment me (1st)
 }
 
 #[test]
@@ -490,6 +521,7 @@ fn associated_types_add() {
 
     trait MyAdd {
         // Can have defaults (behind feature flag)
+        // Can also specify trait bounds
         type Output;
 
         fn my_add(&self, other: &Self) -> Self::Output;

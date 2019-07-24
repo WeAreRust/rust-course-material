@@ -169,7 +169,6 @@ But Rust has a way to do dynamic dispatch as well, with __Trait Objects__
 --
 
 ... but that's outside the scope of this talk -
-[interesting flowchart](http://thume.ca/assets/postassets/generics/flowchart.pdf)
 
 ---
 
@@ -181,11 +180,49 @@ Theory of Traits
 
 Theory of Traits
 
+## Display & Debug
+
+- Super useful displaying information
+- Not just for writing to `stdout`
+- No additional overhead.
+
+```rust
+pub trait Display {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), Error>;
+}
+
+pub trait Debug {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), Error>;
+}
+```
+---
+
+Theory of Traits
+
+## Iterators
+
+- Personally, a little surprising how powerful they are
+- Sometimes more efficient than `for` loops
+- It's a ZCA!
+
+--
+
+[iterators docs](https://doc.rust-lang.org/std/iter/trait.Iterator.html)
+
+--
+
+Will work on the most restricted hardware to the most powerful supercomputer.
+
+---
+
+Theory of Traits
+
 ## Futures
 
 - Like promises
 - Allow asyncronous execution
 - No overhead, no required runtime, just traits
+- Like `Iterator`, this is a ZCA.
 
 --
 
@@ -201,23 +238,7 @@ pub trait Future {
 
 Use them anywhere and anywhere (async/await not yet stable)
 
----
-
-Theory of Traits
-
-## Iterators
-
-- Personally, a little surprising how powerful they are
-- Sometimes more efficient than `for` loops
-- Like `Future`, this is a ZCA.
-
---
-
-[iterators docs](https://doc.rust-lang.org/std/iter/trait.Iterator.html)
-
---
-
-Will work on the most restricted hardware to the most powerful supercomputer.
+Also `poll` doesn't necessarily mean busy loop.
 
 ---
 
